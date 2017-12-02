@@ -1,12 +1,5 @@
+define(function(localRequire, exports, module) { var requireOrig = require; require = localRequire;
 'use strict';
-
-if (!process.version ||
-    process.version.indexOf('v0.') === 0 ||
-    process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
-  module.exports = nextTick;
-} else {
-  module.exports = process.nextTick;
-}
 
 function nextTick(fn, arg1, arg2, arg3) {
   if (typeof fn !== 'function') {
@@ -17,17 +10,17 @@ function nextTick(fn, arg1, arg2, arg3) {
   switch (len) {
   case 0:
   case 1:
-    return process.nextTick(fn);
+    return fn.call(null);
   case 2:
-    return process.nextTick(function afterTickOne() {
+    return nextTick(function afterTickOne() {
       fn.call(null, arg1);
     });
   case 3:
-    return process.nextTick(function afterTickTwo() {
+    return nextTick(function afterTickTwo() {
       fn.call(null, arg1, arg2);
     });
   case 4:
-    return process.nextTick(function afterTickThree() {
+    return nextTick(function afterTickThree() {
       fn.call(null, arg1, arg2, arg3);
     });
   default:
@@ -36,8 +29,12 @@ function nextTick(fn, arg1, arg2, arg3) {
     while (i < args.length) {
       args[i++] = arguments[i];
     }
-    return process.nextTick(function afterTick() {
+    return nextTick(function afterTick() {
       fn.apply(null, args);
     });
   }
 }
+
+module.exports = nextTick;
+
+require = requireOrig;});

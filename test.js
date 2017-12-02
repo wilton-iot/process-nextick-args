@@ -1,5 +1,6 @@
-var test = require("tap").test;
-var nextTick = require('./');
+define(function(localRequire, exports, module) { var requireOrig = require; require = localRequire;
+var test = require("tape-compat");
+var nextTick = require('process-nextick-args');
 
 test('should work', function (t) {
   t.plan(5);
@@ -22,3 +23,5 @@ test('correct number of arguments', function (t) {
     t.equals(2, arguments.length, 'correct number');
   }, 1, 2);
 });
+
+require = requireOrig;});

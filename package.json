@@ -21,5 +21,12 @@
   "homepage": "https://github.com/calvinmetcalf/process-nextick-args",
   "devDependencies": {
     "tap": "~0.2.6"
+  },
+  "wilton": {
+    "excludes": [
+      "license.md",
+      "readme.md",
+      "test.js"
+    ]
   }
 }
